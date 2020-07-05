@@ -3,6 +3,8 @@ import shortid from 'shortid';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from './App.module.css';
 
 class App extends Component {
@@ -28,7 +30,12 @@ class App extends Component {
     );
 
     if (duplicate) {
-      alert(`${name} is already in contacts.`);
+      toast.info(`${name} is already in contacts.`);
+      return;
+    }
+
+    if (!name) {
+      toast.info('Please, fill the form');
       return;
     }
 
@@ -64,7 +71,7 @@ class App extends Component {
       <div>
         <h1 className={styles.header}>Phonebook</h1>
         <ContactForm onSubmit={this.addContact} />
-
+        <ToastContainer />
         <h2 className={styles.header}>Contacts</h2>
         <Filter value={filter} onChange={this.changeFilter} />
         <ContactList
